@@ -1,3 +1,4 @@
+% Function used to calculate position of point B and C
 function [B, C] = joint_position(q, L1, L2)
     q1 = q(1);
     q2 = q(2);
@@ -24,7 +25,10 @@ function [B, C] = joint_position(q, L1, L2)
     H21 = [R21 o21; zeros(1,3) 1];
     % Homogenous transformation of frame 2 in terms of frame 0
     H20 = H10*H21;
-
+    
+    % B coordinates in terms of frame 0
     B = o10;
+    % Extract C coordinates in terms of frame 0
     C = [H20(1,4); H20(2,4); H20(3,4)];
 end
+
