@@ -2,7 +2,7 @@ clear all
 close all
 clc
 
-% CASE 1
+% CASE 2
 
 % Define your initial state, e.g. as:
 % state = [position;
@@ -10,9 +10,15 @@ clc
 %          velocity;
 %          angular velocity];
 
+skew = @(w) [0, -w(3), w(2); w(3), 0, -w(1); -w(2), w(1), 0];
+
 % Satelite parameters
 l = 0.5; % side length
 m = l^3 * 1; % Mass = Volume x density
+m0 = 0.1; % Point mass
+rp = [l/2; l/2; l/2]; % Coordinates of corner
+rc = (m0/(m + m0))*rp; % New center of mass
+
 orbit_height = 36e6;
 earth_radius = 6356e3;
 % Satellite position in spherical coordinates
@@ -26,7 +32,7 @@ R = expm([   0,      -r(3),  +r(2);
              +r(3),     0,   -r(1);
              -r(2), +r(1),    0]);      % Rotation matrix describing the satellite orientation
 
-J = (1/6)*m*l^2*eye(3); % Inertia matrix
+J = (1/6)*m*l^2*eye(3) - m0*skew(rp)*skew(rp) - (m+m0)*skew(rc)*skew(rc); % Inertia matrix
 
 % Define initial state
 state = zeros(18,1);
