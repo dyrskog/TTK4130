@@ -17,24 +17,6 @@ state(3) = pi/2;
 
 
 [tsim,xsim] = ode45(@(t,x) PendulumDynamics(t, x, parameters),[0,tf],state);
-% % Simulation
-% try
-
-%     %%%%%% MODIFY THE CODE AS YOU SEE FIT
-
-%     [tsim,xsim] = ode45(@(t,x) PendulumDynamics(t, x, parameters),[0,tf],state);
-%     disp('simulating..')
-
-% catch message
-%     display('Your simulation failed with the following message:')
-%     display(message.message)
-%     display(' ')
-
-%     % Assign dummy time and states if simulation failed
-%     tf = 0.1;
-%     tsim = [0,tf];
-%     xsim = 0;
-% end
 
 %% 3D animation
 DoublePlot = true;
@@ -76,10 +58,6 @@ SimSpeed = 1;
     % Interpolate state
     x_disp   = interp1(tsim,xsim,SimSpeed*t_disp)';
 
-    % Unwrap state. MODIFY
-    % x = 1; % position cart
-    % p1 = 1*[sin(pi/4);-cos(pi/4)]; % position 1st ball
-    % p2 = p1 + 1*[sin(pi/2);-cos(pi/2)]; % position 2nd ball
     x = x_disp(1);
     [p1,p2] = PendulumPosition(x_disp, parameters);
 

@@ -9,35 +9,36 @@ syms dx dtheta real
 
 % Define symbolic variable q for the generalized coordinates
 % x and theta
-q  = [];
+q  = [x; theta];
 % Define symbolic variable dq for the derivatives 
 % of the generalized coordinates
-dq = [];
+dq = [dx; dtheta];
 % Write the expressions for the position of
 % the center of the ball:
-p = [];   
+p = [x*cos(theta) - R*sin(theta);
+    x*sin(theta) + R*cos(theta)];   
              
 % Kinetic energy
-T = ; % kinetic energy of beam
+T = (1/2)*J*dtheta^2; % kinetic energy of beam
 
 dp = jacobian(p,q)*dq; % linear velocity of ball
-T  = T + ; % add linear kinetic energy of ball
+T  = T + (1/2)*M*dp'*dp; % add linear kinetic energy of ball
 
-I     = ; % inertia in rotation of ball
-omega = ; % angular velocity of ball
+I     = (2/5)*M*R^2; % inertia in rotation of ball
+omega = dtheta + dx/R; % angular velocity of ball
 
-T  = T + ; % add rotational kinetic energy of ball
+T  = T + (1/2)*I*omega^2; % add rotational kinetic energy of ball
 
 T = simplify(T);
 
 % Potential energy
-V = ;
+V = M*g*p(2);
 
 % Generalized forces
-Q = [];
+Q = [0;To];
 
 % Lagrangian
-Lag = ;
+Lag = T - V;
 
 Lag_q = simplify(jacobian(Lag,q)).';
 Lag_qdq = simplify(jacobian(Lag_q.',dq));

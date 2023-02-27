@@ -4,26 +4,19 @@ clc
 
 % Parameters and initial states
 tf = 15;
-% parameters =
-% state =
+
+J = 1; % Moment of inertia of beam
+M = 10; % Mass of ball
+R = 0.25; % Radius of ball
+g = 9.81; % Gravitational constant
+
+state = zeros(4,1);
+state(1) = 0.25;
+state(2) = pi/6;
+parameters = [J; M; R; g];
 
 % Simulation
-try
-
-    %%%%%% MODIFY THE CODE AS YOU SEE FIT
-
-    [tsim,xsim] = ode45(@(t,x)BallAndBeamDynamics(t, x, parameters),[0,tf],state);
-
-catch message
-    display('Your simulation failed with the following message:')
-    display(message.message)
-    display(' ')
-
-    % Assign dummy time and states if simulation failed
-    tf = 0.1;
-    tsim = [0,tf];
-    xsim = 0;
-end
+[tsim,xsim] = ode45(@(t,x)BallAndBeamDynamics(t, x, parameters),[0,tf],state);
 
 %% 3D animation
 DoublePlot = true;
@@ -50,12 +43,12 @@ t_disp = 0;
 SimSpeed = 1;
 while t_disp < tf/SimSpeed
     % Interpolate state
-%     x_disp   = interp1(tsim,xsim,SimSpeed*t_disp)';
+    x_disp   = interp1(tsim,xsim,SimSpeed*t_disp)';
 
     % Unwrap state. MODIFY
-    theta = pi/6; % beam angle
-    pos = 1*[cos(theta);sin(theta)] + ball_radius*[-sin(theta);cos(theta)];
-    pos = [pos(1);0;pos(2)]; % ball position
+    pos = BallPosition(x_disp, parameters);
+    pos = [pos(1);0;pos(2)];
+    theta = x_disp(2);
 
     figid = figure(1);clf;hold on
     if DoublePlot
