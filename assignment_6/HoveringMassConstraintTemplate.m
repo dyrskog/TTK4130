@@ -21,13 +21,13 @@ ddq = [ddpm1;ddpm2];
 z = sym('z');
 
 % Generalized forces
-Q = [];
+Q = [u; zeros(3,1); zeros(3,1)];
 % Kinetic energy (function of q and dq)
-T = ;
+T = (1/2)*m1*dpm1'*dpm1 + (1/2)*m2*dpm2*dpm2;
 % Potential energy
-V = ;
+V = m1*g*pm1*[0; 0; 1] + m2*g*pm2*[0; 0; 1];
 % Lagrangian (function of q and dq)
-Lag = ;
+Lag = T - V;
 % Constraint
 dpm  = pm1 - pm2; % difference of positions
 C = ;
