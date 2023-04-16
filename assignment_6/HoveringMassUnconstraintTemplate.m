@@ -20,7 +20,7 @@ dq = [dpm1;da];
 ddq = [ddpm1;dda];
 
 % Position of point mass 2
-pm2  = pm1 + [L*sin(q(2))*cos(q(3)); L*sin(q(2))*sin(q(3)); L*cos(q(2))];
+pm2  = pm1 + [L*sin(q(4))*cos(q(5)); L*sin(q(4))*sin(q(5)); L*cos(q(4))];
 % Velocity of point mass 2
 dpm2 = jacobian(pm2,q)*dq;
 % Generalized forces
