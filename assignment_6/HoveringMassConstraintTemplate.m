@@ -25,7 +25,7 @@ Q = [u; zeros(3,1)];
 % Kinetic energy (function of q and dq)
 T = (1/2)*m1*dpm1'*dpm1 + (1/2)*m2*dpm2'*dpm2;
 % Potential energy
-V = m1*g*pm1'*[0; 0; 1] + m2*g*pm2'*[0; 0; 1];
+V = m1*g*pm1(3) + m2*g*pm2(3);
 % Lagrangian (function of q and dq)
 Lag = T - V;
 % Constraint
@@ -41,7 +41,7 @@ C_q = simplify(jacobian(C,q)).';
 
 % Matrices for problem 1
 M = Lag_dqdq;
-b = Q + simplify(Lag_q - (Lag_qdq*dq) - z*C_q);
+b = Q + simplify(Lag_q + z*C_q);
 
 % Matrices for problem 2
 Mimplicit = [M C_q;
